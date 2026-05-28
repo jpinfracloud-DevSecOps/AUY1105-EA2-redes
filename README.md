@@ -19,7 +19,7 @@ Para llamar a este módulo desde un código principal (orquestador), se debe uti
 
 ```hcl
 module "redes" {
-  source            = "git::[https://github.com/jpinfracloud-DevSecOps/AUY1105-EA2-redes.git?ref=v1.0.0](https://github.com/jpinfracloud-DevSecOps/AUY1105-EA2-redes.git?ref=v1.0.0)"
+  source            = "git::https://github.com/jpinfracloud-DevSecOps/AUY1105-EA2-redes.git?ref=v0.1.0"
   vpc_cidr          = "10.1.0.0/16"
   subnet_pub_cidr   = "10.1.1.0/24"
   availability_zone = "us-east-1a"

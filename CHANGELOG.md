@@ -3,9 +3,10 @@ Todos los cambios notables en este proyecto serán documentados en este archivo 
 
 ## [0.1.0] - 2026-05-28
 ### Added
-* `versions.tf`: Definición de requerimientos mínimos para Terraform (>= 1.5.0) y proveedor AWS (~> 5.0).
-* `variables.tf`: Parametrización completa de CIDR de VPC, Subnet pública, Zona de Disponibilidad y etiquetas.
-* `main.tf`: Lógica base de infraestructura de red incluyendo recursos `aws_vpc`, `aws_internet_gateway`, `aws_subnet`, `aws_route_table` y asociaciones.
-* `outputs.tf`: Exportación de valores críticos `vpc_id` y `subnet_ids` para su consumo por otros módulos.
-* `.gitignore`: Configuración para excluir archivos de estado local y datos sensibles de Terraform.
-* `README.md`: Documentación técnica inicial con objetivos, propósito general del código y ejemplos de uso.
+* `versions.tf`: Configuración de requerimientos mínimos para Terraform (>= 1.5.0) y proveedor AWS (~> 5.0).
+* `variables.tf`: Parámetros para CIDR de VPC, Subnet pública, Zona de Disponibilidad y etiquetas.
+* `main.tf`: Lógica de recursos de red (`aws_vpc`, `aws_internet_gateway`, `aws_subnet`, `aws_route_table` y sus asociaciones).
+* `outputs.tf`: Exportación de `vpc_id` y `subnet_ids` para conexión con otros módulos.
+* `.gitignore`: Exclusión de archivos temporales, binarios y estados locales de Terraform.
+* `README.md`: Documentación técnica principal con propósitos y ejemplos de uso.
+* `examples/basic-vpc/`: Entorno de pruebas local con un `main.tf` de ejemplo y su propia guía de ejecución rápida.

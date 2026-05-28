@@ -1,0 +1,27 @@
+# ─────────────────────────────────────────────────────────────
+# .gitignore – Exclusión de archivos para el Módulo de Redes
+# ─────────────────────────────────────────────────────────────
+
+# Carpetas locales de inicialización de Terraform
+.terraform/
+.terraformrc
+terraform.rc
+
+# Archivos de estado de Terraform (Contienen datos sensibles de infraestructura)
+*.tfstate
+*.tfstate.*
+.terraform.tfstate.lock.info
+
+# Archivos de variables con datos sensibles y credenciales locales
+*.tfvars
+*.tfvars.json
+*.tfplan
+
+# Archivos de logs y caídas del sistema
+crash.log
+crash.*.log
+*.log
+
+# Archivos temporales de sistemas operativos
+.DS_Store
+Thumbs.db

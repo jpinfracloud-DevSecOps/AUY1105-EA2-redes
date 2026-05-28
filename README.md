@@ -1,21 +1,23 @@
-# Módulo de Terraform para Redes en AWS
-## Evaluación Parcial 2 - EVP-IaC-II
+# 🌐 Módulo de Terraform para Redes en AWS
+## 📑 Evaluación Parcial 2 - EVP-IaC-II
 
-### 1. Objetivos del Repositorio
-* **Desacoplamiento:** Aislar la lógica de red de la Evaluación Parcial 1 en un componente independiente y reutilizable.
-* **Estandarización:** Proveer una estructura base de red (VPC) sólida, parametrizada y documentada siguiendo las buenas prácticas de Terraform.
-* **Versionamiento:** Implementar un flujo de trabajo basado en versionado semántico (`MAJOR.MINOR.PATCH`).
+### 1. 🎯 Objetivos del Repositorio
+* **🛠️ Desacoplamiento:** Aislar la lógica de red de la Evaluación Parcial 1 en un componente independiente y reutilizable.
+* **📐 Estandarización:** Proveer una estructura base de red (VPC) sólida, parametrizada y documentada siguiendo las buenas prácticas de Terraform.
+* **🏷️ Versionamiento:** Implementar un flujo de trabajo basado en versionado semántico (`MAJOR.MINOR.PATCH`).
 
-### 2. Propósito General del Código
+### 2. 🔌 Propósito General del Código
 Este módulo está diseñado para automatizar y gestionar la infraestructura base de red en Amazon Web Services (AWS). Se encarga de la creación y configuración interconectada de los siguientes recursos:
-* **VPC (Virtual Private Cloud):** Red lógica aislada con soporte de DNS habilitado.
-* **Internet Gateway (IGW):** Permite la comunicación entre la VPC e Internet.
-* **Public Subnet:** Subred configurada para asignar IPs públicas automáticamente a los recursos que se desplieguen en ella (como instancias EC2).
-* **Route Table & Association:** Tabla de enrutamiento pública y sus reglas para dirigir el tráfico hacia el Internet Gateway.
+* **🧱 VPC (Virtual Private Cloud):** Red lógica aislada con soporte de DNS habilitado.
+* **🚪 Internet Gateway (IGW):** Permite la comunicación entre la VPC e Internet.
+* **🌐 Public Subnet:** Subred configurada para asignar IPs públicas automáticamente a los recursos que se desplieguen en ella (como instancias EC2).
+* **🗺️ Route Table & Association:** Tabla de enrutamiento pública y sus reglas para dirigir el tráfico hacia el Internet Gateway.
 
-### 3. Instrucciones Básicas de Uso
+---
 
-Para llamar a este módulo desde un código principal (orquestador), se debe utilizar un bloque `module` apuntando a la ruta origen.
+### 3. 🚀 Instrucciones Básicas de Uso
+
+Para llamar a este módulo desde un código principal (orquestador), se debe utilizar un bloque `module` apuntando a la ruta origen:
 
 ```hcl
 module "redes" {
@@ -25,3 +27,55 @@ module "redes" {
   availability_zone = "us-east-1a"
   vpc_name          = "mi-proyecto-vpc"
 }
+```
+
+### 4. 🗺️ Despliegue Paso a Paso
+
+- Si deseas probar o utilizar este módulo en un entorno de desarrollo local, sigue estas instrucciones detalladas:
+
+1. 👥 **Clonar el repositorio:**
+   Clona este módulo dentro de tu espacio de trabajo local o directorio de proyectos:
+   ```bash
+   git clone [https://github.com/jpinfracloud-DevSecOps/AUY1105-EA2-redes.git](https://github.com/jpinfracloud-DevSecOps/AUY1105-EA2-redes.git)
+
+2. 🔑 **Configurar Credenciales de AWS:**
+Asegúrate de tener configuradas tus credenciales de AWS en tu terminal de Git Bash (vía aws configure o exportando las variables de entorno de AWS Academy/Laboratorio).   
+
+    - Option A: Usando Variables de Entorno (Recomendado para laboratorios)
+    ```hcl
+    export AWS_ACCESS_KEY_ID="TU_ACCESS_KEY_AQUÍ"
+    export AWS_SECRET_ACCESS_KEY="TU_SECRET_KEY_AQUÍ"
+    export AWS_SESSION_TOKEN="TU_SESSION_TOKEN_AQUÍ"
+    ```
+    - Option B: Usando el cliente oficial de AWS CLI
+
+    ```hcl
+    aws configure
+    # Te solicitará el Access Key, Secret Key y la región por defecto (us-east-1)  
+    ```
+
+1. 📂 **Navegar al directorio de pruebas:**
+Accede a la carpeta de ejemplos configurada para validar el módulo:
+    ```hcl
+    cd AUY1105-EA2-redes/examples/basic-vpc
+    ```
+1. ⚙️ **Inicializar Terraform:**
+Ejecuta el comando de inicialización para descargar los proveedores necesarios (hashicorp/aws):
+    ```hcl
+    terraform init
+    ```
+1. 🔍 **Validar la Sintaxis:**
+Comprueba que la configuración no tenga errores de escritura o arquitectura local:
+    ```hcl
+    terraform validate
+    ```
+1. 📝 **Generar Plan de Ejecución:**
+Visualiza los recursos de red que se crearán en AWS:
+    ```hcl
+    terraform plan
+    ```
+1. 🚀 **Aplicar la Infraestructura:**
+Despliega los recursos en la nube de AWS (requiere confirmación escribiendo yes):
+    ```hcl
+    terraform apply
+    ```

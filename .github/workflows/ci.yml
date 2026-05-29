@@ -1,0 +1,81 @@
+name: CI - Modulo Redes (vpc_module)
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validacion:
+    name: Calidad y seguridad
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_ACCESS_KEY_ID:     ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_SESSION_TOKEN:     ${{ secrets.AWS_SESSION_TOKEN }}
+      AWS_DEFAULT_REGION:    ${{ secrets.AWS_REGION }}
+
+    steps:
+      - name: Checkout del codigo
+        uses: actions/checkout@v4
+
+      - name: Configurar Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      # Optimización: Usamos la acción oficial para instalar OPA de forma segura sin romper permisos
+      - name: Configurar Open Policy Agent (OPA)
+        uses: open-policy-agent/setup-opa@v2
+        with:
+          version: latest
+
+      - name: Configurar TFLint
+        uses: terraform-linters/setup-tflint@v4
+
+      - name: Formato del codigo (terraform fmt)
+        run: terraform fmt -check -recursive
+
+      - name: Inicializar Terraform
+        run: terraform init -backend=false -input=false
+
+      - name: Validar configuracion (terraform validate)
+        run: terraform validate
+
+      - name: Analisis estatico (TFLint)
+        run: tflint -f compact
+
+      - name: Analisis de seguridad (Checkov)
+        uses: bridgecrewio/checkov-action@v12
+        with:
+          directory: .
+          framework: terraform
+          quiet: true
+          soft_fail: true
+
+      # Corrección Técnica: Generamos el plan simulado agregando un proveedor mínimo temporal en caso de que sea un módulo aislado
+      - name: Validacion de politicas OPA (SSH)
+        run: |
+          # Creamos un archivo de proveedor rápido en memoria solo para permitir generar el plan en la CI
+          echo 'provider "aws" { region = "us-east-1" }' > _ci_provider.tf
+          
+          terraform init -backend=false -input=false
+          terraform plan -out=tfplan -input=false
+          terraform show -json tfplan > plan.json
+
+          VIOLATIONS=$(opa eval -f raw \
+            -d policies/terraform_ssh_check.rego \
+            -i plan.json \
+            'count(data.terraform.ssh.violation)')
+
+          if [ "$VIOLATIONS" != "0" ]; then
+            echo "❌ POLITICA SSH - VIOLACIONES ENCONTRADAS:"
+            opa eval -f pretty \
+              -d policies/terraform_ssh_check.rego \
+              -i plan.json 'data.terraform.ssh.violation'
+            exit 1
+          fi
+          echo "✅ POLITICA SSH OK - Sin SSH abierto de forma insegura a 0.0.0.0/0"

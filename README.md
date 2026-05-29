@@ -79,3 +79,12 @@ Despliega los recursos en la nube de AWS (requiere confirmación escribiendo yes
     ```hcl
     terraform apply
     ```
+## 🎯 Filosofía de Diseño y Principios de Arquitectura (Módulo de Redes)
+
+Este módulo se ha estructurado bajo una filosofía de ingeniería orientada a la estabilidad del terreno y el aislamiento perimetral, basada en tres pilares fundamentales:
+
+1. **Persistencia (Estabilidad de la Base):** Rechazamos la inmediatez. La red es el cimiento de toda la infraestructura; si la base es inestable, las capas superiores colapsarán. El diseño de las tablas de ruteo, subredes y accesos a internet requiere una planificación pausada, validada localmente mediante el laboratorio en `examples/` para garantizar un comportamiento predecible antes de exponer el entorno.
+   
+2. **Escalabilidad (Plasticidad Topológica):** En la nube, las fronteras de red deben ser elásticas. Al abstraer los rangos de direccionamiento IP (`cidr_block`) y las zonas de disponibilidad en variables dinámicas, el módulo permite expandir la topología o segmentar nuevas subredes en el futuro sin necesidad de rediseñar el mapa de red desde cero.
+
+3. **Reutilización (Terreno Universal):** Este componente ha sido concebido como un estándar fundacional. Cualquier proyecto, microservicio o aplicación de la organización que requiera un entorno VPC seguro, estandarizado y conectado en AWS, puede importar y consumir este bloque de construcción remoto de forma inmediata, eliminando la configuración artesanal.

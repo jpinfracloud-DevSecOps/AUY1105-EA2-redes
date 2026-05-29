@@ -5,6 +5,7 @@
 * **🛠️ Desacoplamiento:** Aislar la lógica de red de la Evaluación Parcial 1 en un componente independiente y reutilizable.
 * **📐 Estandarización:** Proveer una estructura base de red (VPC) sólida, parametrizada y documentada siguiendo las buenas prácticas de Terraform.
 * **🏷️ Versionamiento:** Implementar un flujo de trabajo basado en versionado semántico (`MAJOR.MINOR.PATCH`).
+* **🛡️ DevSecOps & Gobernanza:** Integrar políticas de cumplimiento y análisis estático automatizado para garantizar que la infraestructura sea intrínsecamente segura antes de su despliegue.
 
 ### 2. 🔌 Propósito General del Código
 Este módulo está diseñado para automatizar y gestionar la infraestructura base de red en Amazon Web Services (AWS). Se encarga de la creación y configuración interconectada de los siguientes recursos:
@@ -12,6 +13,7 @@ Este módulo está diseñado para automatizar y gestionar la infraestructura bas
 * **🚪 Internet Gateway (IGW):** Permite la comunicación entre la VPC e Internet.
 * **🌐 Public Subnet:** Subred configurada para asignar IPs públicas automáticamente a los recursos que se desplieguen en ella (como instancias EC2).
 * **🗺️ Route Table & Association:** Tabla de enrutamiento pública y sus reglas para dirigir el tráfico hacia el Internet Gateway.
+* **🤖 Pipeline de Integración Continua (CI):** Automatización en GitHub Actions que valida el formato (`fmt`), consistencia (`validate`), buenas prácticas (`TFLint`), seguridad (`Checkov`) y cumplimiento estricto de políticas perimetrales (auditoría SSH vía **Open Policy Agent - OPA**).
 
 ---
 
